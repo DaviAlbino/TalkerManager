@@ -16,6 +16,6 @@ app.use(express.json());
 
 const router = require('./router');
 
-app.use('/talker', router);
+app.use('/', router);
 
 module.exports = app;
