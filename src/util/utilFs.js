@@ -22,7 +22,22 @@ const talkerPostUtil = async (talker) => {
     }
 };
 
+const talkerPutUtil = async (id, talkerBody) => {
+    try {
+        const talkerList = await read();
+        const talkerPut = { ...talkerBody, id };
+        const newList = talkerList.filter((t) => t.id !== id);
+        newList.push(talkerPut);
+        console.log(newList);
+        await fs.writeFile(path.resolve(__dirname, '../talker.json'), JSON.stringify([...newList]));
+        return talkerPut;
+    } catch (error) {
+        console.error(`Erro na escrita do arquivo: ${error}`);
+    }
+};
+
 module.exports = {
     read,
     talkerPostUtil,
+    talkerPutUtil,
 };

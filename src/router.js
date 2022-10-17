@@ -2,7 +2,7 @@ const express = require('express');
 
 const router = express.Router();
 router.use(express.json());
-const { read, talkerPostUtil } = require('./util/utilFs');
+const { read, talkerPostUtil, talkerPutUtil } = require('./util/utilFs');
 const emailValidate = require('./middlewares/emailValidate');
 const validatePassword = require('./middlewares/passwordValidate');
 const tokenNumber = require('./util/generateToken');
@@ -52,6 +52,21 @@ async (req, res) => {
     const newTalker = req.body;
     const postNewTalker = await talkerPostUtil(newTalker);
     res.status(HTTP_CREATED).json(postNewTalker);
+});
+
+router.put('/talker/:id',
+authorizatoin,
+nameValidate,
+ageValidate,
+talkValidate,
+ratingValidate,
+watchedAtValidate,
+async (req, res) => {
+    const id = Number(req.params.id);
+    const newTalker = req.body;
+    const putNewTalker = await talkerPutUtil(id, newTalker);
+    console.log(putNewTalker);
+    return res.status(HTTP_OK_STATUS).json(putNewTalker);
 });
 
 module.exports = router;
