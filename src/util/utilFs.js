@@ -10,4 +10,19 @@ const read = async () => {
     }
 };
 
-module.exports = read;
+const talkerPostUtil = async (talker) => {
+    try {
+        const talkerList = read();
+        const newTalkerList = { id: talkerList.length + 1, ...talker };
+        const updatedTalkersList = JSON.stringify([...talkerList, newTalkerList]);
+        await fs.writeFile(path.resolve(__dirname, '../talker.json'), updatedTalkersList);
+        return newTalkerList;
+    } catch (error) {
+        console.error(`Erro na escrita do arquivo: ${error}`);
+    }
+};
+
+module.exports = {
+    read,
+    talkerPostUtil,
+};

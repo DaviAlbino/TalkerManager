@@ -1,11 +1,11 @@
 const express = require('express');
+
+const router = express.Router();
+router.use(express.json());
+const read = require('./util/utilFs');
 const emailValidate = require('./middlewares/emailValidate');
 const validatePassword = require('./middlewares/passwordValidate');
 const tokenNumber = require('./util/generateToken');
-
-const router = express.Router();
-
-const read = require('./util/utilFs');
 
 const HTTP_OK_STATUS = 200;
 const HTTP_NOT_FOUND = 404;
@@ -26,9 +26,17 @@ router.get('/talker/:id', async (req, res) => {
     }
 });
 
-router.post('/login', emailValidate, validatePassword, async (_req, res) => {
+router.post('/login', emailValidate, validatePassword, async (req, res) => {
+    // const login = { ...req.body };
+    // console.log(login);
+    // console.log(validatePassword());
     const token = tokenNumber();
-    return res.status(200).json({ token });
+    return res.status(HTTP_OK_STATUS).json({ token });
 });
+
+// router.post('/talker', async (req, res) => {
+//     const newTalker = { ...req.body };
+//     const talkers = JSON.parse();
+// });
 
 module.exports = router;

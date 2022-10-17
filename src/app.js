@@ -12,8 +12,6 @@ app.get('/', (_request, response) => {
     response.status(HTTP_OK_STATUS).send();
 });
 
-app.use(express.json());
-
 const router = require('./router');
 
 app.use('/', router);
