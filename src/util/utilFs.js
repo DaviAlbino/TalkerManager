@@ -12,7 +12,7 @@ const read = async () => {
 
 const talkerPostUtil = async (talker) => {
     try {
-        const talkerList = read();
+        const talkerList = await read();
         const newTalkerList = { id: talkerList.length + 1, ...talker };
         const updatedTalkersList = JSON.stringify([...talkerList, newTalkerList]);
         await fs.writeFile(path.resolve(__dirname, '../talker.json'), updatedTalkersList);
