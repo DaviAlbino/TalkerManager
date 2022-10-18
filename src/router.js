@@ -2,7 +2,15 @@ const express = require('express');
 
 const router = express.Router();
 router.use(express.json());
-const { read, talkerPostUtil, talkerPutUtil, talkerDeleteUtil } = require('./util/utilFs');
+
+const {
+    read,
+    talkerPostUtil,
+    talkerPutUtil,
+    talkerDeleteUtil,
+    getSearchByName,
+} = require('./util/utilFs');
+
 const emailValidate = require('./middlewares/emailValidate');
 const validatePassword = require('./middlewares/passwordValidate');
 const tokenNumber = require('./util/generateToken');
@@ -21,6 +29,12 @@ const HTTP_DELETED = 204;
 router.get('/talker', async (_req, res) => {
     const talkersRead = await read();
     res.status(HTTP_OK_STATUS).json(talkersRead);
+});
+
+router.get('/talker/search', authorizatoin, async (req, res) => {
+    const newQuery = req.query.q;
+    const getSearch = await getSearchByName(newQuery);
+    res.status(HTTP_OK_STATUS).json(getSearch);
 });
 
 router.get('/talker/:id', async (req, res) => {

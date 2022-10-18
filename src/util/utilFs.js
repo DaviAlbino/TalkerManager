@@ -46,9 +46,20 @@ const talkerDeleteUtil = async (id) => {
     }
 };
 
+const getSearchByName = async (talkerName) => {
+    try {
+        const talkerList = await read();
+        const searchedTalker = talkerList.filter((talker) => talker.name.includes(talkerName));
+        return searchedTalker;        
+    } catch (error) {
+        console.error(`Erro na escrita do arquivo: ${error}`);
+    }
+};
+
 module.exports = {
     read,
     talkerPostUtil,
     talkerPutUtil,
     talkerDeleteUtil,
+    getSearchByName,
 };
