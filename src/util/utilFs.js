@@ -36,8 +36,19 @@ const talkerPutUtil = async (id, talkerBody) => {
     }
 };
 
+const talkerDeleteUtil = async (id) => {
+    try {
+        const talkerList = await read();
+        const newList = talkerList.filter((t) => t.id !== id);
+        await fs.writeFile(path.resolve(__dirname, '../talker.json'), JSON.stringify([...newList]));
+    } catch (error) {
+        console.error(`Erro na escrita do arquivo: ${error}`);
+    }
+};
+
 module.exports = {
     read,
     talkerPostUtil,
     talkerPutUtil,
+    talkerDeleteUtil,
 };

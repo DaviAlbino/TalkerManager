@@ -2,7 +2,7 @@ const express = require('express');
 
 const router = express.Router();
 router.use(express.json());
-const { read, talkerPostUtil, talkerPutUtil } = require('./util/utilFs');
+const { read, talkerPostUtil, talkerPutUtil, talkerDeleteUtil } = require('./util/utilFs');
 const emailValidate = require('./middlewares/emailValidate');
 const validatePassword = require('./middlewares/passwordValidate');
 const tokenNumber = require('./util/generateToken');
@@ -16,6 +16,7 @@ const watchedAtValidate = require('./middlewares/watchedAtValidate');
 const HTTP_OK_STATUS = 200;
 const HTTP_NOT_FOUND = 404;
 const HTTP_CREATED = 201;
+const HTTP_DELETED = 204;
  
 router.get('/talker', async (_req, res) => {
     const talkersRead = await read();
@@ -67,6 +68,12 @@ async (req, res) => {
     const putNewTalker = await talkerPutUtil(id, newTalker);
     console.log(putNewTalker);
     return res.status(HTTP_OK_STATUS).json(putNewTalker);
+});
+
+router.delete('/talker/:id', authorizatoin, async (req, res) => {
+    const id = Number(req.params.id);
+    await talkerDeleteUtil(id);
+    return res.status(HTTP_DELETED).json();
 });
 
 module.exports = router;
